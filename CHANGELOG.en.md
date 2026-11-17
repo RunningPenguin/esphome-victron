@@ -11,12 +11,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Compatibility status
 
 Tested with:
-- ESPHome **2026.10.2** — ESP-IDF ✅
-- ESPHome **2026.6.5** — ESP-IDF ✅
+- ESPHome **2026.11.0** — ESP-IDF ✅
 
 Platform: ESP32 with ESP-IDF framework only (no Arduino).
 
 ---
+
+## [0.1.7] — 2026-11-20 — Support ESPHome developer MAC formatting
+
+### Changed
+- `victron_ble`: The helper `address_str()` was extended to support the MAC address format used by ESPHome developers. `helpers.h` is now included and `format_mac_addr_upper()` is used, providing the expected pretty‑printed MAC string.
+
+### Fixed
+- Compilation errors caused by the previous `str_snprintf` usage for MAC addresses, especially in ESPHome development and testing environments, are resolved.
+
+## [0.1.6] — 2026-11-19 — ESPHome 2026.11, log level VERBOSE
+
+### Fixed
+- `victron_ble`: still did not compile with ESPHome 2026.11.0 and log level `VERBOSE`.
+
+## [0.1.5] — 2026-11-19 — ESPHome 2026.11
+
+### Fixed
+- `victron_ble`: did not compile with ESPHome 2026.11.0 because `str_snprintf` no longer comes with
+  `helpers.h` there.
 
 ## [0.1.4] — 2026-10-01 — Cleanup after code audit
 

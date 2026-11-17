@@ -5,6 +5,7 @@
 #include <type_traits>
 #include "esphome/core/automation.h"
 #include "esphome/core/component.h"
+#include "esphome/core/helpers.h"
 #include "esphome/components/esp32_ble_tracker/esp32_ble_tracker.h"
 #include "victron_custom_type.h"
 
@@ -920,10 +921,13 @@ class VictronBle : public esp32_ble_tracker::ESPBTDeviceListener, public Compone
     if (this->address_ == 0) {
       return "";
     } else {
-      return str_snprintf("%02X:%02X:%02X:%02X:%02X:%02X", 17, (uint8_t) (this->address_ >> 40) & 0xff,
-                          (uint8_t) (this->address_ >> 32) & 0xff, (uint8_t) (this->address_ >> 24) & 0xff,
-                          (uint8_t) (this->address_ >> 16) & 0xff, (uint8_t) (this->address_ >> 8) & 0xff,
-                          (uint8_t) (this->address_ >> 0) & 0xff);
+      const uint8_t mac[MAC_ADDRESS_SIZE] = {
+          static_cast<uint8_t>(this->address_ >> 40), static_cast<uint8_t>(this->address_ >> 32),
+          static_cast<uint8_t>(this->address_ >> 24), static_cast<uint8_t>(this->address_ >> 16),
+          static_cast<uint8_t>(this->address_ >> 8), static_cast<uint8_t>(this->address_),
+      };
+      char buffer[MAC_ADDRESS_PRETTY_BUFFER_SIZE];
+      return std::string(format_mac_addr_upper(mac, buffer));
     }
   }
 
